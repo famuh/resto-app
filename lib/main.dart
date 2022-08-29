@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:resto_app/data/restaurant.dart';
 import 'package:resto_app/home_page.dart';
+import 'package:resto_app/resto_detail.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +18,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      initialRoute: HomePage.routeName,
+      routes: {
+        HomePage.routeName : (context) => HomePage(),
+        RestoDetails.routeName : (context) => RestoDetails(
+          restaurant: ModalRoute.of(context)?.settings.arguments as Restaurant,
+        )
+      },
     );
   }
   
