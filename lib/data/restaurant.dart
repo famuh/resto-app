@@ -1,8 +1,3 @@
-// To parse this JSON data, do
-//
-//     final restoData = restoDataFromJson(jsonString);
-
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 RestoData restoDataFromJson(String str) => RestoData.fromJson(json.decode(str));
@@ -100,12 +95,4 @@ class Drink {
         "name": name,
     };
 
-// List<Restaurant> parseArticles(String? json) {
-//   if (json == null) {
-//     return [];
-//   }
- 
-//   final List parsed = jsonDecode(json);
-//   return parsed.map((json) => Restaurant.fromJson(json)).toList();
-// }
 }
