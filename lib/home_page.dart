@@ -15,25 +15,64 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          flexibleSpace: Image.network(
-            'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=867&q=80',
-            fit: BoxFit.cover,
-          ),
-          title: Column(
-            children: const [
-              Text('Restaurant', style: TextStyle(color: Colors.black)),
-              Text(
-                'recommendation restaurant for you !',
-                style: TextStyle(fontSize: 14, color: Colors.black54),
-              ),
-            ],
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
+      appBar: AppBar(
+        flexibleSpace: Image.network(
+          'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=867&q=80',
+          fit: BoxFit.cover,
         ),
-        body: const RestoListPage());
+        title: Column(
+          children: const [
+            Text('Restaurant', style: TextStyle(color: Colors.black)),
+            Text(
+              'recommendation restaurant for you !',
+              style: TextStyle(fontSize: 14, color: Colors.black54),
+            ),
+          ],
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: const RestoListPage(),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.grey,
+        tooltip: 'Search your favorite restaurant here',
+        mini: true,
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  actions: [
+                    OutlinedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('OK'))
+                  ],
+                  title: const Text(
+                    'Looking for your favorite place ?',
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  content: Container(
+                    height: 35,
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.green),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          label: Text('search . . .'),
+                          suffixIcon: Icon(Icons.search)),
+                    ),
+                  ),
+                );
+              });
+        },
+        child: const Icon(Icons.search),
+      ),
+    );
   }
 }
 
