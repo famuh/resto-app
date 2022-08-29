@@ -50,6 +50,8 @@ class RestoDetails extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: Text(
                   restaurant.description,
+                  maxLines: 5,
+                  overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.justify,
                   style: const TextStyle(color: Colors.black54),
                 ),
