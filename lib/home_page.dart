@@ -82,7 +82,8 @@ class RestoListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: DefaultAssetBundle.of(context).loadString('resto_data.json'),
+      future:
+          DefaultAssetBundle.of(context).loadString('assets/resto_data.json'),
       builder: (context, AsyncSnapshot snapshot) {
         final List<Restaurant> restaurant =
             restoDataFromJson(snapshot.requireData).restaurants;
