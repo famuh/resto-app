@@ -121,9 +121,12 @@ Widget _buildRestoItem(BuildContext context, Restaurant resto) {
           Icons.food_bank_rounded,
           size: 20,
         ),
-        Text(
-          resto.name,
-          style: const TextStyle(fontWeight: FontWeight.w500),
+        Flexible(
+          child: Text(
+            resto.name,
+            style: const TextStyle(
+              fontWeight: FontWeight.w500),
+          ),
         )
       ]),
       subtitle: Row(children: [
