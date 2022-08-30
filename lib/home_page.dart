@@ -85,8 +85,16 @@ class RestoListPage extends StatelessWidget {
       future:
           DefaultAssetBundle.of(context).loadString('assets/resto_data.json'),
       builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.hasError) {
+          return const Text("error");
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
         final List<Restaurant> restaurant =
             restoDataFromJson(snapshot.requireData).restaurants;
+
         return ListView.builder(
           itemCount: restaurant.length,
           itemBuilder: (BuildContext context, int index) {
