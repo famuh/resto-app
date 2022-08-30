@@ -50,8 +50,6 @@ class RestoDetails extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: Text(
                   restaurant.description,
-                  maxLines: 5,
-                  overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.justify,
                   style: const TextStyle(color: Colors.black54),
                 ),
@@ -61,7 +59,7 @@ class RestoDetails extends StatelessWidget {
               const Text('Foods', style: TextStyle(fontWeight: FontWeight.w500)),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: 60,
+                height: 70,
                 child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
@@ -84,11 +82,11 @@ class RestoDetails extends StatelessWidget {
               const Text('Drinks', style: TextStyle(fontWeight: FontWeight.w500)),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: 60,
+                height: 70,
                 child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: restaurant.menus.foods.length,
+                  itemCount: restaurant.menus.drinks.length,
                   itemBuilder: (context, index) => Center(
                     child: Container(
                         margin: const EdgeInsets.symmetric(
