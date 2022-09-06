@@ -12,6 +12,8 @@ class RestaurantProvider extends ChangeNotifier {
   RestaurantProvider({required this.apiService}) {
     _fetchAllRestaurant();
   }
+  late String _aidi;
+  String get aidi => _aidi;
 
   late RestoData _restoResult;
   late ResultState _state;
@@ -38,7 +40,7 @@ class RestaurantProvider extends ChangeNotifier {
       _state = ResultState.error;
       notifyListeners();
       print(e);
-      return _message = 'Error --> $e';
+      return _message = 'Error Restaurant Provider --> $e';
     }
   }
 }

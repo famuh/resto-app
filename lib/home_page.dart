@@ -1,20 +1,14 @@
-
-import 'dart:js';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resto_app/data/api/api_service_restaurant.dart';
-import 'package:resto_app/data/model/detail_restaurant.dart';
 import 'package:resto_app/provider/restaurant_detail_provider.dart';
 import 'package:resto_app/provider/restaurant_provider.dart';
-import 'package:resto_app/resto_detail.dart';
 import 'package:resto_app/widgets/card_resto.dart';
 import 'package:resto_app/widgets/platform_widget.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home_page';
-  
 
   const HomePage({Key? key}) : super(key: key);
 
@@ -97,7 +91,8 @@ class _HomePageState extends State<HomePage> {
 class RestoListPage extends StatelessWidget {
   const RestoListPage({Key? key}) : super(key: key);
 
-  Widget _buildList() {
+  @override
+  Widget build(BuildContext context) {
     return Consumer<RestaurantProvider>(
       builder: (context, state, _) {
         if (state.state == ResultState.loading) {
@@ -108,7 +103,7 @@ class RestoListPage extends StatelessWidget {
               itemCount: state.result.restaurants.length,
               itemBuilder: (context, index) {
                 var restaurant = state.result.restaurants[index];
-                return CardRestaurant(restaurant: restaurant, restoDetail: ayam);
+                return CardRestaurant(restaurant: restaurant);
               });
         } else if (state.state == ResultState.noData) {
           return Center(
@@ -133,18 +128,18 @@ class RestoListPage extends StatelessWidget {
     );
   }
 
-  Widget _buildAndroid(BuildContext context) {
-    return Scaffold(
-      body: _buildList(),
-    );
-  }
+  // Widget _buildAndroid(BuildContext context) {
+  //   return Scaffold(
+  //     body: _buildList(),
+  //   );
+  // }
 
-  Widget _buildIos(BuildContext context) {
-    return CupertinoPageScaffold(child: _buildList());
-  }
+  // Widget _buildIos(BuildContext context) {
+  //   return CupertinoPageScaffold(child: _buildList());
+  // }
 
-  @override
-  Widget build(BuildContext context) {
-    return PlatformWidget(androidBuilder: _buildAndroid, iosBuilder: _buildIos);
-  }
+  // // @override
+  // // Widget build(BuildContext context) {
+  // //   return PlatformWidget(androidBuilder: _buildAndroid, iosBuilder: _buildIos);
+  // // }
 }
