@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:resto_app/data/restaurant.dart';
+import 'package:resto_app/data/model/detail_restaurant.dart';
+import 'package:resto_app/data/model/restaurant.dart';
 
 class RestoDetails extends StatelessWidget {
   static const routeName = '/resto_details';
   final Restaurant restaurant;
+  String? id;
 
-  const RestoDetails({Key? key, required this.restaurant}) : super(key: key);
+  RestoDetails({Key? key, required this.restaurant, this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,9 @@ class RestoDetails extends StatelessWidget {
             shadowColor: Colors.transparent,
             expandedHeight: 300,
             flexibleSpace: FlexibleSpaceBar(
-              background: Image.network(restaurant.pictureId, fit: BoxFit.fill),
+              background: Image.network(
+                'https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}',
+                fit: BoxFit.fill),
             ),
           )
         ];
@@ -54,7 +58,7 @@ class RestoDetails extends StatelessWidget {
                   style: const TextStyle(color: Colors.black54),
                 ),
               ),
-
+              Text(restaurant.id),
               // foods
               const Text('Foods', style: TextStyle(fontWeight: FontWeight.w500)),
               SizedBox(
@@ -63,7 +67,7 @@ class RestoDetails extends StatelessWidget {
                 child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: restaurant.menus.foods.length,
+                  // itemCount: restaurant.menus.foods.length,
                   itemBuilder: (context, index) => Center(
                     child: Container(
                         margin: const EdgeInsets.symmetric(
@@ -73,7 +77,10 @@ class RestoDetails extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10)),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 4),
-                        child: Text(restaurant.menus.foods[index].name)),
+                        child: Text(
+                          restaurant.city
+                          // restaurant.menus!.foods[index].name
+                          )),
                   ),
                 ),
               ),
@@ -86,7 +93,7 @@ class RestoDetails extends StatelessWidget {
                 child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: restaurant.menus.drinks.length,
+                  // itemCount: restaurant.menus.drinks.length,
                   itemBuilder: (context, index) => Center(
                     child: Container(
                         margin: const EdgeInsets.symmetric(
@@ -96,7 +103,9 @@ class RestoDetails extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10)),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 4),
-                        child: Text(restaurant.menus.drinks[index].name)),
+                        child: Text('a'
+                          // restaurant.menus.drinks[index].name
+                        )),
                   ),
                 ),
               )

@@ -1,9 +1,20 @@
+
+import 'dart:js';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:resto_app/data/restaurant.dart';
+import 'package:provider/provider.dart';
+import 'package:resto_app/data/api/api_service_restaurant.dart';
+import 'package:resto_app/data/model/detail_restaurant.dart';
+import 'package:resto_app/provider/restaurant_detail_provider.dart';
+import 'package:resto_app/provider/restaurant_provider.dart';
 import 'package:resto_app/resto_detail.dart';
+import 'package:resto_app/widgets/card_resto.dart';
+import 'package:resto_app/widgets/platform_widget.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home_page';
+  
 
   const HomePage({Key? key}) : super(key: key);
 
@@ -11,15 +22,19 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+@override
 class _HomePageState extends State<HomePage> {
+  // String imgAppbar =
+  //     'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=867&q=80';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        flexibleSpace: Image.network(
-          'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=867&q=80',
-          fit: BoxFit.cover,
-        ),
+        // flexibleSpace: Image.network(
+        //   imgAppbar,
+        //   fit: BoxFit.cover,
+        // ),
         title: Column(
           children: const [
             Text('Restaurant', style: TextStyle(color: Colors.black)),
@@ -33,7 +48,10 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: const RestoListPage(),
+      body: ChangeNotifierProvider<RestaurantProvider>(
+        create: (_) => RestaurantProvider(apiService: ApiService()),
+        child: const RestoListPage(),
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.grey,
         tooltip: 'Search your favorite restaurant here',
@@ -79,63 +97,54 @@ class _HomePageState extends State<HomePage> {
 class RestoListPage extends StatelessWidget {
   const RestoListPage({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future:
-          DefaultAssetBundle.of(context).loadString('assets/resto_data.json'),
-      builder: (context, AsyncSnapshot snapshot) {
-        if (snapshot.hasError) {
-          return const Text("error");
-        }
-        if (snapshot.connectionState == ConnectionState.waiting) {
+  Widget _buildList() {
+    return Consumer<RestaurantProvider>(
+      builder: (context, state, _) {
+        if (state.state == ResultState.loading) {
           return const Center(child: CircularProgressIndicator());
+        } else if (state.state == ResultState.hasData) {
+          return ListView.builder(
+              shrinkWrap: true,
+              itemCount: state.result.restaurants.length,
+              itemBuilder: (context, index) {
+                var restaurant = state.result.restaurants[index];
+                return CardRestaurant(restaurant: restaurant, restoDetail: ayam);
+              });
+        } else if (state.state == ResultState.noData) {
+          return Center(
+            child: Material(
+              child: Text(state.message),
+            ),
+          );
+        } else if (state.state == ResultState.error) {
+          return Center(
+            child: Material(
+              child: Text(state.message),
+            ),
+          );
+        } else {
+          return const Center(
+            child: Material(
+              child: Text(''),
+            ),
+          );
         }
-
-        final List<Restaurant> restaurant =
-            restoDataFromJson(snapshot.requireData).restaurants;
-
-        return ListView.builder(
-          itemCount: restaurant.length,
-          itemBuilder: (BuildContext context, int index) {
-            return _buildRestoItem(context, restaurant[index]);
-          },
-        );
       },
     );
   }
-}
 
-Widget _buildRestoItem(BuildContext context, Restaurant resto) {
-  return Card(
-    elevation: 1,
-    child: ListTile(
-      contentPadding:
-          const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      leading: Image.network(
-        resto.pictureId,
-        width: 100,
-      ),
-      title: Row(children: [
-        const Icon(
-          Icons.food_bank_rounded,
-          size: 20,
-        ),
-        Flexible(
-          child: Text(
-            resto.name,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500),
-          ),
-        )
-      ]),
-      subtitle: Row(children: [
-        const Icon(Icons.location_on, size: 20),
-        Text(resto.city)
-      ]),
-      onTap: () {
-        Navigator.pushNamed(context, RestoDetails.routeName, arguments: resto);
-      },
-    ),
-  );
+  Widget _buildAndroid(BuildContext context) {
+    return Scaffold(
+      body: _buildList(),
+    );
+  }
+
+  Widget _buildIos(BuildContext context) {
+    return CupertinoPageScaffold(child: _buildList());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PlatformWidget(androidBuilder: _buildAndroid, iosBuilder: _buildIos);
+  }
 }
