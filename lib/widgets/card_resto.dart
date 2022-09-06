@@ -13,6 +13,7 @@ class CardRestaurant extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final prov = Provider.of<RestaurantDetailProvider>(context);
     
     return Card(
           elevation: 2,
@@ -32,7 +33,8 @@ class CardRestaurant extends StatelessWidget {
                     const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
               ),
               onTap: () {
-                Navigator.push(
+                
+                Navigator.push(  
                     context,
                     MaterialPageRoute(
                         builder: (context) => RestoDetails(

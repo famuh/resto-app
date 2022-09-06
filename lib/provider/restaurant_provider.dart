@@ -12,8 +12,6 @@ class RestaurantProvider extends ChangeNotifier {
   RestaurantProvider({required this.apiService}) {
     _fetchAllRestaurant();
   }
-  late String _aidi;
-  String get aidi => _aidi;
 
   late RestoData _restoResult;
   late ResultState _state;
