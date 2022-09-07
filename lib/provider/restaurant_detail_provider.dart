@@ -2,14 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:resto_app/data/api/api_service_restaurant.dart';
 import 'package:resto_app/data/model/detail_restaurant.dart';
-import 'package:resto_app/data/model/restaurant.dart';
 import 'restaurant_provider.dart';
 
 class RestaurantDetailProvider extends ChangeNotifier {
   final ApiService apiService;
-
-  RestaurantDetailProvider({required this.apiService}) {
-    fetchDetail(id);
+  final String idResto;
+  
+  RestaurantDetailProvider({required this.apiService, required this.idResto}) {
+    //  getId(id);
+     fetchDetail(idResto);
   }
 
   late DetailResto _restoResult;
@@ -20,30 +21,30 @@ class RestaurantDetailProvider extends ChangeNotifier {
   DetailResto get result => _restoResult;
   ResultState get state => _state;
 
-  String _id = 'rqdv5juczeskfw1e867';
-  String get id => _id;
-
-
-  Future<dynamic> fetchDetail(String id) async {
+  // late String _id = 'rqdv5juczeskfw1e867';
+  // String get id => _id;
+  // void getId(String val){
+  //   _id = val;
+  //   notifyListeners();
+  // }
+  Future<dynamic> fetchDetail(String idResto) async {
     try {
       _state = ResultState.loading;
       notifyListeners();
-      final result = await apiService.restoDetail(id);
+      final result = await apiService.restoDetail(idResto);
       if (result.restaurant.id.isEmpty) {
-        print('is Empty :D');
         _state = ResultState.noData;
         return _message = 'Empty Data';
       } else {
         _state = ResultState.hasData;
         notifyListeners();
-        print(result.restaurant.id);
         return _restoResult = result;
       }
     } catch (e) {
       _state = ResultState.error;
       notifyListeners();
       print(e);
-      return _message = 'Error Restaurant Detail--> $e';
+      return _message = 'No Internet Connection';
     }
   }
 }

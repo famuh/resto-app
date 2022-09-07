@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resto_app/data/api/api_service_restaurant.dart';
-import 'package:resto_app/provider/restaurant_detail_provider.dart';
 import 'package:resto_app/provider/restaurant_provider.dart';
 import 'package:resto_app/widgets/card_resto.dart';
 import 'package:resto_app/widgets/platform_widget.dart';
@@ -18,17 +17,17 @@ class HomePage extends StatefulWidget {
 
 @override
 class _HomePageState extends State<HomePage> {
-  // String imgAppbar =
-  //     'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=867&q=80';
+  String imgAppbar =
+      'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=867&q=80';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // flexibleSpace: Image.network(
-        //   imgAppbar,
-        //   fit: BoxFit.cover,
-        // ),
+        flexibleSpace: Image.network(
+          imgAppbar,
+          fit: BoxFit.cover,
+        ),
         title: Column(
           children: const [
             Text('Restaurant', style: TextStyle(color: Colors.black)),
@@ -42,12 +41,15 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: ChangeNotifierProvider<RestaurantProvider>(
-        create: (_) => RestaurantProvider(apiService: ApiService()),
-        child: const RestoListPage(),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ChangeNotifierProvider<RestaurantProvider>(
+          create: (_) => RestaurantProvider(apiService: ApiService()),
+          child: const RestoListPage(),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.black,
         tooltip: 'Search your favorite restaurant here',
         mini: true,
         onPressed: () {
@@ -91,8 +93,8 @@ class _HomePageState extends State<HomePage> {
 class RestoListPage extends StatelessWidget {
   const RestoListPage({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
+  
+  Widget _buildList() {
     return Consumer<RestaurantProvider>(
       builder: (context, state, _) {
         if (state.state == ResultState.loading) {
@@ -128,18 +130,18 @@ class RestoListPage extends StatelessWidget {
     );
   }
 
-  // Widget _buildAndroid(BuildContext context) {
-  //   return Scaffold(
-  //     body: _buildList(),
-  //   );
-  // }
+  Widget _buildAndroid(BuildContext context) {
+    return Scaffold(
+      body: _buildList(),
+    );
+  }
 
-  // Widget _buildIos(BuildContext context) {
-  //   return CupertinoPageScaffold(child: _buildList());
-  // }
+  Widget _buildIos(BuildContext context) {
+    return CupertinoPageScaffold(child: _buildList());
+  }
 
-  // // @override
-  // // Widget build(BuildContext context) {
-  // //   return PlatformWidget(androidBuilder: _buildAndroid, iosBuilder: _buildIos);
-  // // }
+  @override
+  Widget build(BuildContext context) {
+    return PlatformWidget(androidBuilder: _buildAndroid, iosBuilder: _buildIos);
+  }
 }

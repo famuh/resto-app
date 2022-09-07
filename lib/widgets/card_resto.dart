@@ -4,78 +4,60 @@ import 'package:resto_app/data/model/restaurant.dart';
 import 'package:resto_app/provider/restaurant_detail_provider.dart';
 import 'package:resto_app/resto_detail.dart';
 
-import '../provider/restaurant_provider.dart';
-
-class CardRestaurant extends StatelessWidget {
+class CardRestaurant extends StatefulWidget {
   final Restaurant restaurant;
 
   CardRestaurant({Key? key, required this.restaurant}) : super(key: key);
 
   @override
+  State<CardRestaurant> createState() => _CardRestaurantState();
+}
+
+class _CardRestaurantState extends State<CardRestaurant> {
+  @override
   Widget build(BuildContext context) {
-    final prov = Provider.of<RestaurantDetailProvider>(context);
-    
     return Card(
-          elevation: 2,
-          child: Container(
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    opacity: .2,
-                    image: NetworkImage(
-                        'https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}'))),
-            child: ListTile(
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              leading: Text(
-                restaurant.name,
-                style:
-                    const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-              ),
-              onTap: () {
-                
-                Navigator.push(  
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => RestoDetails(
-                              id: restaurant.id,
-                            )));
-              },
-            ),
+      elevation: 2,
+      child: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                fit: BoxFit.cover,
+                opacity: .2,
+                image: NetworkImage(
+                    'https://restaurant-api.dicoding.dev/images/small/${widget.restaurant.pictureId}'))),
+        child: ListTile(
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(widget.restaurant.name,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w500, fontSize: 16)),
+              Container(
+                width: MediaQuery.of(context).size.width/3,
+                child: Row(
+                  children: [
+                    const Icon(Icons.location_on_rounded, size: 16, color: Colors.redAccent,),
+                    Text(' '+widget.restaurant.city)
+                  ],
+                ),
+              )
+            ],
           ),
-        );
-      // },
-      // child: Material(
-      //   child: Card(
-      //     elevation: 2,
-      //     child: Container(
-      //       // margin: EdgeInsets.symmetric(vertical: 5),
-      //       decoration: BoxDecoration(
-      //           image: DecorationImage(
-      //               fit: BoxFit.cover,
-      //               opacity: .2,
-      //               image: NetworkImage(
-      //                   'https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}'))),
-      //       child: ListTile(
-      //         contentPadding:
-      //             const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      //         leading: Text(
-      //           restaurant.name,
-      //           style:
-      //               const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-      //         ),
-      //         onTap: () {
-      //           // Navigator.push(context, MaterialPageRoute(builder: (context)=>RestoDetails(
-      //           //   restaurant: restaurant, id: provID.getId('1')))
-      //           //   );
+          onTap: () {
+            // print('Sebelum diubah : ${prov.id}');
 
-      //           Navigator.pushNamed(context, RestoDetails.routeName,
-      //               arguments: [restaurant, restaurant.id]);
-      //         },
-      //       ),
-      //     ),
-      //   ),
-      // ),
-    }
+            // prov.getId(widget.restaurant.id);
+            // print('Setelah getID : ${prov.id}');
+
+            Navigator.pushNamed(context, RestoDetails.routeName,
+                arguments: widget.restaurant.id);
+            print('yang dikirim : ' + widget.restaurant.id);
+          },
+        ),
+      ),
+    );
   }
-
+}
