@@ -15,7 +15,7 @@ class ApiService{
     if (response.statusCode == 200) {
       return RestoData.fromJson(json.decode(response.body));
     }else{
-      throw 'Error to load';
+      throw 'Failed to Load Data';
     }
   }
   
@@ -24,7 +24,7 @@ class ApiService{
     if (response.statusCode == 200) {
       return DetailResto.fromJson(json.decode(response.body));
     }else{
-      throw Exception('Failed to load detail');
+      throw Exception('Failed to Load Detail');
     }
   }
 }

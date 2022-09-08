@@ -137,8 +137,10 @@ class RestoDetails extends StatelessWidget {
                         const Divider(color: Colors.transparent),
 
                         // Review
-                        const Text('Customer Review'),
+                        const Text('Customer Review',
+                            style: TextStyle(fontWeight: FontWeight.w500)),
                         Container(
+                          margin: EdgeInsets.symmetric(vertical: 3),
                           constraints: const BoxConstraints(
                               minHeight: 50, maxHeight: 80),
                           child: ListView.builder(
@@ -164,13 +166,14 @@ class RestoDetails extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(restaurant
-                                              .customerReviews[index].name),
+                                              .customerReviews[index].name, style: TextStyle(color: Colors.black.withOpacity(.6))),
                                           Text(restaurant
-                                              .customerReviews[index].date)
+                                              .customerReviews[index].date, style: TextStyle(color: Colors.black.withOpacity(.6)))
                                         ]),
                                       const SizedBox(height: 10),
                                       Text(
-                                          "\"${restaurant.customerReviews[index].review}\"")
+                                          "\"${restaurant.customerReviews[index].review}\"",
+                                          textAlign: TextAlign.center,)
                                     ]),
                                 ));
                             },

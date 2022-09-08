@@ -3,32 +3,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resto_app/data/api/api_service_restaurant.dart';
-import 'package:resto_app/data/model/restaurant.dart';
 import 'package:resto_app/provider/restaurant_provider.dart';
 import 'package:resto_app/search_page.dart';
 import 'package:resto_app/widgets/card_resto.dart';
 import 'package:resto_app/widgets/platform_widget.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   static const routeName = '/home_page';
 
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-@override
-class _HomePageState extends State<HomePage> {
-  String imgAppbar =
-      'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=867&q=80';
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        flexibleSpace: Image.network(
-          imgAppbar,
+        flexibleSpace: Image.asset(
+          'assets/appbarBg.jpg',
           fit: BoxFit.cover,
         ),
         title: Column(
@@ -92,15 +82,33 @@ class _HomePageState extends State<HomePage> {
     );
   }}
 
-class RestoListPage extends StatelessWidget {
+class RestoListPage extends StatefulWidget {
   const RestoListPage({Key? key}) : super(key: key);
 
+  @override
+  State<RestoListPage> createState() => _RestoListPageState();
+}
+
+class _RestoListPageState extends State<RestoListPage> {
+  String? loadMessage;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    loadMessage = 'Wait a second . . .';
+    super.initState();
+  }
   Widget _buildList() {
     return 
     Consumer<RestaurantProvider>(
       builder: (context, state, _) {
         if (state.state == ResultState.loading) {
-          return const Center(child: CircularProgressIndicator());
+          Future.delayed(const Duration(seconds: 8), (){
+            setState(() {
+              loadMessage = 'It\'s getting longer . . .';
+            });
+          });
+          return Center(child: Text(loadMessage!));
         } else if (state.state == ResultState.hasData) {
           return ListView.builder(
               shrinkWrap: true,
@@ -115,10 +123,7 @@ class RestoListPage extends StatelessWidget {
               child: Text(state.message),
             ));
         } else if (state.state == ResultState.error) {
-          return Center(
-            child: Material(
-              child: Text(state.message),
-            ));
+          return Container();
         } else {
           return const Center(
             child: Material(

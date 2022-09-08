@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: HomePage.routeName,
       routes: {
-        HomePage.routeName: (context) => const HomePage(),
+        HomePage.routeName: (context) => HomePage(),
         RestoDetails.routeName: (context) => RestoDetails(
               id: ModalRoute.of(context)?.settings.arguments as String),
         SearchPage.routeName: (context) => ChangeNotifierProvider(
