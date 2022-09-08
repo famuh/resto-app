@@ -1,8 +1,4 @@
-// To parse this JSON data, do
-//
-//     final detailResto = detailRestoFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 DetailResto detailRestoFromJson(String str) => DetailResto.fromJson(json.decode(str));

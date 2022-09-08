@@ -21,9 +21,6 @@ class CustomerReview extends StatelessWidget {
               itemCount: restaurant.restaurant.customerReviews.length,
               itemBuilder: (BuildContext context, int index) {
                 return Expanded(
-                  
-                  // padding: const EdgeInsets.symmetric(
-                  //     vertical: 8.0, horizontal: 16.0),
                       child: Column(
                         children: [
                           Row(
@@ -31,16 +28,11 @@ class CustomerReview extends StatelessWidget {
                             children: [
                               Text(restaurant.restaurant.customerReviews[index].name),
                               Text(restaurant.restaurant.customerReviews[index].date)
-                            ],
-                          ),
+                            ]),
                           Text("\"${restaurant.restaurant.customerReviews[index].review}\"")
-                        ],
-                      ),
-                );
-              },
-            ),
-          ],
-        );
+                        ]));
+              }),
+          ]);
       } else if (state.state == ResultState.noData) {
         return Center(
           child: Material(

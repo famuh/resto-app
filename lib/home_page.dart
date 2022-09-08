@@ -88,18 +88,13 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         }
-          },
-          
-        ),
-      ),
+          })),
     );
-  }
-}
+  }}
 
 class RestoListPage extends StatelessWidget {
   const RestoListPage({Key? key}) : super(key: key);
 
-  
   Widget _buildList() {
     return 
     Consumer<RestaurantProvider>(
@@ -118,23 +113,18 @@ class RestoListPage extends StatelessWidget {
           return Center(
             child: Material(
               child: Text(state.message),
-            ),
-          );
+            ));
         } else if (state.state == ResultState.error) {
           return Center(
             child: Material(
               child: Text(state.message),
-            ),
-          );
+            ));
         } else {
           return const Center(
             child: Material(
               child: Text(''),
-            ),
-          );
-        }
-      },
-    );
+            ));
+        }});
   }
 
   Widget _buildAndroid(BuildContext context) {

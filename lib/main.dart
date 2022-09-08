@@ -13,7 +13,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,12 +24,10 @@ class MyApp extends StatelessWidget {
       routes: {
         HomePage.routeName: (context) => const HomePage(),
         RestoDetails.routeName: (context) => RestoDetails(
-              id: ModalRoute.of(context)?.settings.arguments as String,
-            ),
+              id: ModalRoute.of(context)?.settings.arguments as String),
         SearchPage.routeName: (context) => ChangeNotifierProvider(
               create: (_) => RestaurantProvider(apiService: ApiService()),
-              child: const SearchPage(),
-            )
+              child: const SearchPage())
       },
     );
   }

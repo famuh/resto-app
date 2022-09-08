@@ -13,7 +13,6 @@ class ApiService{
     final response = await http.get(Uri.parse('$_baseUrl$_list'));
     
     if (response.statusCode == 200) {
-      print('Response List : OK');
       return RestoData.fromJson(json.decode(response.body));
     }else{
       throw 'Error to load';
@@ -23,7 +22,6 @@ class ApiService{
   Future<DetailResto> restoDetail(id) async{
     final response = await http.get(Uri.parse(_baseUrl+'detail/$id'));
     if (response.statusCode == 200) {
-      print('Response Detail : OK');
       return DetailResto.fromJson(json.decode(response.body));
     }else{
       throw Exception('Failed to load detail');

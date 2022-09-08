@@ -20,11 +20,9 @@ class RestoDetails extends StatelessWidget {
         body: Consumer<RestaurantDetailProvider>(
           builder: (context, state, _) {
             if (state.state == ResultState.loading) {
-              print('resto_detail : is loading');
               return const Center(child: CircularProgressIndicator());
             } else if (state.state == ResultState.hasData) {
               var restaurant = state.result.restaurant;
-              print('resto_detail : has data from ' + restaurant.id);
               return NestedScrollView(
                   headerSliverBuilder: (context, isScrolled) {
                     return [
@@ -35,9 +33,7 @@ class RestoDetails extends StatelessWidget {
                         flexibleSpace: FlexibleSpaceBar(
                           background: Image.network(
                               'https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}',
-                              fit: BoxFit.fill),
-                        ),
-                      )
+                              fit: BoxFit.fill)))
                     ];
                   },
                   body: SingleChildScrollView(
@@ -53,28 +49,23 @@ class RestoDetails extends StatelessWidget {
                             const Icon(
                               Icons.star_rounded,
                               color: Colors.amber,
-                              size: 32,
-                            ),
+                              size: 32),
                             Text(
                               restaurant.rating.toString(),
                               style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16),
-                            )
-                          ],
-                        ),
+                                  fontWeight: FontWeight.bold, fontSize: 16))
+                          ]),
                         Container(
                           margin: const EdgeInsets.symmetric(vertical: 10),
                           padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Colors.blueGrey.withOpacity(.3),
-                          ),
+                            color: Colors.blueGrey.withOpacity(.3)),
                           child: ListTile(
                             leading: const Icon(
                               Icons.food_bank_rounded,
                               size: 50,
-                              color: Colors.black54,
-                            ),
+                              color: Colors.black54),
                             title: Text(restaurant.name,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold)),
@@ -82,19 +73,16 @@ class RestoDetails extends StatelessWidget {
                               restaurant.city,
                               style:
                                   const TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                        ),
+                            ))),
 
                         Container(
                           padding: const EdgeInsets.all(10),
                           child: Text(
                             restaurant.description,
                             textAlign: TextAlign.justify,
-                            style: const TextStyle(color: Colors.black54),
-                          ),
-                        ),
+                            style: const TextStyle(color: Colors.black54))),
                         const Divider(color: Colors.transparent),
+
                         // foods
                         const Text('Foods',
                             style: TextStyle(fontWeight: FontWeight.w500)),
@@ -110,9 +98,7 @@ class RestoDetails extends StatelessWidget {
                                   margin: const EdgeInsets.symmetric(
                                       horizontal: 5, vertical: 4),
                                   decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                          153, 196, 196, 196),
-                                      // border: Border.all(color: Colors.green),
+                                      color: const Color.fromARGB(153, 196, 196, 196),
                                       borderRadius: BorderRadius.circular(10)),
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8, vertical: 10),
@@ -120,10 +106,7 @@ class RestoDetails extends StatelessWidget {
                                     restaurant.menus.foods[index].name,
                                     style: const TextStyle(
                                         fontWeight: FontWeight.w500),
-                                  )),
-                            ),
-                          ),
-                        ),
+                                  ))))),
                         const Divider(color: Colors.transparent),
 
                         //drinks
@@ -141,9 +124,7 @@ class RestoDetails extends StatelessWidget {
                                   margin: const EdgeInsets.symmetric(
                                       horizontal: 5, vertical: 4),
                                   decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                          153, 196, 196, 196),
-                                      // border: Border.all(color: Colors.green),
+                                      color: const Color.fromARGB(153, 196, 196, 196),
                                       borderRadius: BorderRadius.circular(10)),
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8, vertical: 10),
@@ -151,10 +132,7 @@ class RestoDetails extends StatelessWidget {
                                     restaurant.menus.drinks[index].name,
                                     style: const TextStyle(
                                         fontWeight: FontWeight.w500),
-                                  )),
-                            ),
-                          ),
-                        ),
+))))),
 
                         const Divider(color: Colors.transparent),
 
@@ -189,29 +167,21 @@ class RestoDetails extends StatelessWidget {
                                               .customerReviews[index].name),
                                           Text(restaurant
                                               .customerReviews[index].date)
-                                        ],
-                                      ),
+                                        ]),
                                       const SizedBox(height: 10),
                                       Text(
                                           "\"${restaurant.customerReviews[index].review}\"")
-                                    ],
-                                  ),
-                                ),
-                              );
+                                    ]),
+                                ));
                             },
-                          ),
-                        ),
-
-                        // const CustomerReview()
-                      ],
-                    ),
+                          ))]),
                   )));
             } else if (state.state == ResultState.error) {
               return Center(
                 child: Text(state.message),
               );
             } else {
-              return Text('dahlah');
+              return const Text('');
             }
           },
         ),

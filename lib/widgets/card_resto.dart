@@ -30,7 +30,6 @@ class _CardRestaurantState extends State<CardRestaurant> {
               const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(widget.restaurant.name,
                   style: const TextStyle(
@@ -47,14 +46,8 @@ class _CardRestaurantState extends State<CardRestaurant> {
             ],
           ),
           onTap: () {
-            // print('Sebelum diubah : ${prov.id}');
-
-            // prov.getId(widget.restaurant.id);
-            // print('Setelah getID : ${prov.id}');
-
             Navigator.pushNamed(context, RestoDetails.routeName,
                 arguments: widget.restaurant.id);
-            print('yang dikirim : ' + widget.restaurant.id);
           },
         ),
       ),

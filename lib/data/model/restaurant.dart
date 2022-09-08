@@ -1,9 +1,5 @@
 import 'dart:convert';
 
-// To parse this JSON data, do
-//
-//     final restoData = restoDataFromJson(jsonString);
-
 RestoData restoDataFromJson(String str) => RestoData.fromJson(json.decode(str));
 
 String restoDataToJson(RestoData data) => json.encode(data.toJson());

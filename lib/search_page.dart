@@ -39,10 +39,7 @@ class _SearchPageState extends State<SearchPage> {
                 'Search',
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
-                  fontSize: 36,
-                ),
-              ),
-            ),
+                  fontSize: 36))),
 
             // SEARCH FIELD
             Column(
@@ -81,7 +78,6 @@ class _SearchPageState extends State<SearchPage> {
                           isSearch = false;
                         });
                       }
-                      print(val);
                       setState(() {
                         Consumer<RestaurantProvider>(
                           builder: (context, state, _) {
@@ -99,43 +95,32 @@ class _SearchPageState extends State<SearchPage> {
                                               element.name.contains(val))
                                           .toList();
                                       restoSearchList.add(search);
-
                                       var restaurant = state.result.restaurants;
                                       return Text(restaurant[index].name);
-                                    }),
-                              );
+                                    }));
                             } else if (state.state == ResultState.noData) {
                               return Center(
                                 child: Material(
                                   child: Text(state.message),
-                                ),
-                              );
+                                ));
                             } else if (state.state == ResultState.error) {
                               return Center(
                                 child: Material(
                                   child: Text(state.message),
-                                ),
-                              );
+                                ));
                             } else {
                               return const Center(
                                 child: Material(
-                                  child: Text(''),
-                                ),
-                              );
+                                  child: Text('')));
                             }
-                          },
-                        );
+                          });
                       });
-                    },
-                  ),
-                ),
+                    })),
                 TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Text('batal'))
-              ],
-            ),
+                    child: const Text('batal'))]),
 
             // Item
             searchEditingController.text.isNotEmpty
@@ -143,10 +128,7 @@ class _SearchPageState extends State<SearchPage> {
                 : Container(),
 
             searchEditingController.text.isEmpty ? _buildList() : Container()
-          ],
-        ),
-      ),
-    );
+          ])));
   }
 
   Widget _buildList() {
@@ -167,23 +149,15 @@ class _SearchPageState extends State<SearchPage> {
         } else if (state.state == ResultState.noData) {
           return Center(
             child: Material(
-              child: Text(state.message),
-            ),
-          );
+              child: Text(state.message)));
         } else if (state.state == ResultState.error) {
           return Center(
             child: Material(
-              child: Text(state.message),
-            ),
-          );
+              child: Text(state.message)));
         } else {
           return const Center(
             child: Material(
-              child: Text(''),
-            ),
-          );
-        }
-      },
+              child: Text('')));
+        }},
     );
-  }
-}
+  }}
