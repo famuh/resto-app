@@ -35,7 +35,7 @@ class _CardRestaurantState extends State<CardRestaurant> {
               Text(widget.restaurant.name,
                   style: const TextStyle(
                       fontWeight: FontWeight.w500, fontSize: 16)),
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width/3,
                 child: Row(
                   children: [

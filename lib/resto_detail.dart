@@ -31,7 +31,7 @@ class RestoDetails extends StatelessWidget {
                       SliverAppBar(
                         elevation: 0,
                         shadowColor: Colors.transparent,
-                        expandedHeight: 350,
+                        expandedHeight: 300,
                         flexibleSpace: FlexibleSpaceBar(
                           background: Image.network(
                               'https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}',
@@ -43,35 +43,46 @@ class RestoDetails extends StatelessWidget {
                   body: SingleChildScrollView(
                       child: Padding(
                     padding:
-                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                        const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            const Icon(Icons.star_rounded, color: Colors.amber, size: 32,),
+                            const Icon(
+                              Icons.star_rounded,
+                              color: Colors.amber,
+                              size: 32,
+                            ),
                             Text(
                               restaurant.rating.toString(),
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16),
                             )
                           ],
                         ),
                         Container(
                           margin: const EdgeInsets.symmetric(vertical: 10),
-                          padding: EdgeInsets.all(5),
+                          padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                          color: Colors.blueGrey.withOpacity(.5),
+                            color: Colors.blueGrey.withOpacity(.3),
                           ),
                           child: ListTile(
-                            leading:
-                                const Icon(Icons.food_bank_rounded, size: 50),
+                            leading: const Icon(
+                              Icons.food_bank_rounded,
+                              size: 50,
+                              color: Colors.black54,
+                            ),
                             title: Text(restaurant.name,
-                                style:
-                                    const TextStyle(fontWeight: FontWeight.bold)),
-                            subtitle: Text(restaurant.city),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold)),
+                            subtitle: Text(
+                              restaurant.city,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w500),
+                            ),
                           ),
                         ),
 
@@ -83,7 +94,7 @@ class RestoDetails extends StatelessWidget {
                             style: const TextStyle(color: Colors.black54),
                           ),
                         ),
-const Divider(color: Colors.transparent),
+                        const Divider(color: Colors.transparent),
                         // foods
                         const Text('Foods',
                             style: TextStyle(fontWeight: FontWeight.w500)),
@@ -99,17 +110,17 @@ const Divider(color: Colors.transparent),
                                   margin: const EdgeInsets.symmetric(
                                       horizontal: 5, vertical: 4),
                                   decoration: BoxDecoration(
-                                      color: const Color.fromARGB(153, 196, 196, 196),
+                                      color: const Color.fromARGB(
+                                          153, 196, 196, 196),
                                       // border: Border.all(color: Colors.green),
                                       borderRadius: BorderRadius.circular(10)),
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8, vertical: 10),
-                                  child:
-                                      Text(restaurant.menus.foods[index].name,
-                                      style: const TextStyle(
+                                  child: Text(
+                                    restaurant.menus.foods[index].name,
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.w500),
-                                      
-                                      )),
+                                  )),
                             ),
                           ),
                         ),
@@ -130,17 +141,17 @@ const Divider(color: Colors.transparent),
                                   margin: const EdgeInsets.symmetric(
                                       horizontal: 5, vertical: 4),
                                   decoration: BoxDecoration(
-                                      color: const Color.fromARGB(153, 196, 196, 196),
+                                      color: const Color.fromARGB(
+                                          153, 196, 196, 196),
                                       // border: Border.all(color: Colors.green),
                                       borderRadius: BorderRadius.circular(10)),
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8, vertical: 10),
-                                  child:
-                                      Text(restaurant.menus.drinks[index].name,
-                                      style: const TextStyle(
+                                  child: Text(
+                                    restaurant.menus.drinks[index].name,
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.w500),
-                                      
-                                      )),
+                                  )),
                             ),
                           ),
                         ),

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resto_app/provider/restaurant_provider.dart';
@@ -6,7 +5,6 @@ import 'package:resto_app/widgets/card_resto.dart';
 
 class SearchPage extends StatefulWidget {
   static const routeName = '/search_page';
- 
 
   const SearchPage({Key? key}) : super(key: key);
 
@@ -141,21 +139,10 @@ class _SearchPageState extends State<SearchPage> {
 
             // Item
             searchEditingController.text.isNotEmpty
-                ? Center(
-                  child: Expanded(
-                    child: Column(
-                      children: [
-                        Image.network('https://d2pas86kykpvmq.cloudfront.net/images/humans-3.0/pose_45.png'),
-                        const Text('Tidak Ditemukan')
-                      ],
-                    ),
-                  ),
-                )
+                ? const Center(child: Text('Tidak Ditemukan'))
                 : Container(),
 
-            searchEditingController.text.isEmpty ? 
-            _buildList() :
-            Container()
+            searchEditingController.text.isEmpty ? _buildList() : Container()
           ],
         ),
       ),
@@ -199,5 +186,4 @@ class _SearchPageState extends State<SearchPage> {
       },
     );
   }
-
 }
