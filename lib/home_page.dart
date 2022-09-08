@@ -1,8 +1,11 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resto_app/data/api/api_service_restaurant.dart';
+import 'package:resto_app/data/model/restaurant.dart';
 import 'package:resto_app/provider/restaurant_provider.dart';
+import 'package:resto_app/search_page.dart';
 import 'package:resto_app/widgets/card_resto.dart';
 import 'package:resto_app/widgets/platform_widget.dart';
 
@@ -48,43 +51,46 @@ class _HomePageState extends State<HomePage> {
           child: const RestoListPage(),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
-        tooltip: 'Search your favorite restaurant here',
-        mini: true,
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  actions: [
-                    OutlinedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('OK'))
-                  ],
-                  title: const Text(
-                    'Looking for your favorite place ?',
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  content: Container(
-                    height: 35,
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.green),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          label: Text('search . . .'),
-                          suffixIcon: Icon(Icons.search)),
-                    ),
-                  ),
-                );
-              });
-        },
-        child: const Icon(Icons.search),
+      floatingActionButton: ChangeNotifierProvider(
+        create: (_) => RestaurantProvider(apiService: ApiService()),
+        child: Consumer<RestaurantProvider>(
+          builder: (context, state, _) {
+            if (state.state == ResultState.loading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state.state == ResultState.hasData) {
+          var restaurant = state.result.restaurants;
+          return FloatingActionButton(
+            backgroundColor: Colors.black,
+            tooltip: 'Search your favorite restaurant here',
+            mini: true,
+            onPressed: () {
+            Navigator.pushNamed(context, SearchPage.routeName,
+            arguments:  restaurant);
+            },
+            child: const Icon(Icons.search),
+          );
+        } else if (state.state == ResultState.noData) {
+          return Center(
+            child: Material(
+              child: Text(state.message),
+            ),
+          );
+        } else if (state.state == ResultState.error) {
+          return Center(
+            child: Material(
+              child: Text(state.message),
+            ),
+          );
+        } else {
+          return const Center(
+            child: Material(
+              child: Text(''),
+            ),
+          );
+        }
+          },
+          
+        ),
       ),
     );
   }
@@ -95,7 +101,8 @@ class RestoListPage extends StatelessWidget {
 
   
   Widget _buildList() {
-    return Consumer<RestaurantProvider>(
+    return 
+    Consumer<RestaurantProvider>(
       builder: (context, state, _) {
         if (state.state == ResultState.loading) {
           return const Center(child: CircularProgressIndicator());
