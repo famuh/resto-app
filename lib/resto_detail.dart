@@ -6,7 +6,6 @@ import 'provider/restaurant_provider.dart';
 
 class RestoDetails extends StatelessWidget {
   static const routeName = '/resto_details';
-
   String id;
   
 
@@ -141,9 +140,9 @@ class RestoDetails extends StatelessWidget {
                             style: TextStyle(fontWeight: FontWeight.w500)),
                         
                         Container(
-                          margin: EdgeInsets.symmetric(vertical: 3),
+                          margin: const EdgeInsets.symmetric(vertical: 3),
                           constraints: const BoxConstraints(
-                              minHeight: 50, maxHeight: 80),
+                              minHeight: 50, maxHeight: 120),
                           child: ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
@@ -158,33 +157,35 @@ class RestoDetails extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(10)),
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 8, vertical: 4),
-                                child: Center(
-                                  child: Column(
+                                child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Flexible(
-
-                                            child: Text(restaurant
-                                                .customerReviews[index].name,
-                                                overflow: TextOverflow.ellipsis,
-                                                 style: TextStyle(color: Colors.black.withOpacity(.6))),
-                                          ),
-                                          Text(restaurant
-                                              .customerReviews[index].date, style: TextStyle(color: Colors.black.withOpacity(.6)))
-                                        ]),
+                                      Flexible(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            const SizedBox(height: 5),
+                                            Text(restaurant
+                                                  .customerReviews[index].name,
+                                                  overflow: TextOverflow.ellipsis
+                                                  ),
+                                            
+                                            Text(restaurant
+                                                .customerReviews[index].date, style: TextStyle(color: Colors.black.withOpacity(.6)))
+                                          ]),
+                                      ),
                                       const SizedBox(height: 10),
                                       Flexible(
                                         child: Text(
                                             "\"${restaurant.customerReviews[index].review}\"",
                                             overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
                                             textAlign: TextAlign.center,),
                                       )
                                     ]),
-                                ));
+                                );
                             },
                           ))
                           ]),
