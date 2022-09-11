@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:resto_app/data/api/api_service_restaurant.dart';
 import 'package:resto_app/provider/restaurant_provider.dart';
 import 'package:resto_app/widgets/card_resto.dart';
+
+import 'data/model/restaurant.dart';
+import 'provider/restaurant_search_provider.dart';
 
 class SearchPage extends StatefulWidget {
   static const routeName = '/search_page';
@@ -15,10 +19,12 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   bool? isSearch;
   TextEditingController searchEditingController = TextEditingController();
+  String? searchRestoName;
 
   @override
   void initState() {
     // TODO: implement initState
+    searchRestoName = '';
     isSearch = false;
     super.initState();
   }
@@ -45,36 +51,43 @@ class _SearchPageState extends State<SearchPage> {
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.green),
                         borderRadius: BorderRadius.circular(20)),
-                    child: TextFormField(
-                      textCapitalization: TextCapitalization.words,
-                        controller: searchEditingController,
-                        decoration: InputDecoration(
-                            contentPadding:
-                                const EdgeInsets.only(left: 15, top: 3),
-                            border: InputBorder.none,
-                            hintText: 'search . . .',
-                            
-                            suffixIcon: isSearch != true
-                                ? const Icon(Icons.search)
-                                : IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        searchEditingController.value =
-                                            TextEditingValue.empty;
-                                      });
-                                    },
-                                    icon: const Icon(Icons.close_rounded))),
-                        onChanged: (val) {
-                          if (searchEditingController.text.isNotEmpty) {
-                            setState(() {
-                              isSearch = true;
-                            });
-                          } else {
-                            setState(() {
-                              isSearch = false;
-                            });
-                          }
-                        })),
+                    child: Consumer<RestaurantSearchProvider>(
+                      builder: (context, state, _) {
+                        
+                      return TextFormField(
+                        textCapitalization: TextCapitalization.words,
+                          controller: searchEditingController,
+                          decoration: InputDecoration(
+                              contentPadding:
+                                  const EdgeInsets.only(left: 15, top: 3),
+                              border: InputBorder.none,
+                              hintText: 'search . . .',
+                              
+                              suffixIcon: isSearch != true
+                                  ? const Icon(Icons.search)
+                                  : IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          searchEditingController.value =
+                                              TextEditingValue.empty;
+                                        });
+                                      },
+                                      icon: const Icon(Icons.close_rounded))),
+                          onChanged: (val) {
+                            if (val.isNotEmpty) {
+                              setState(() {
+                                searchRestoName = val;
+                                isSearch = true;
+                              });
+                            } else {
+                              setState(() {
+                                isSearch = false;
+                              });
+                            }
+                            state.findRestaurant(searchRestoName!);
+                          });
+                      },
+                    )),
                 TextButton(
                     onPressed: () {
                       Navigator.pop(context);
@@ -83,40 +96,48 @@ class _SearchPageState extends State<SearchPage> {
               ]),
 
               // item from consumer
-              Consumer<RestaurantProvider>(
-                builder: (context, state, _) {
-                  if (state.state == ResultState.loading) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state.state == ResultState.hasData) {
-                    return Expanded(
-                      child: ListView.builder(
-                          shrinkWrap: true,
+              searchRestoName!.isEmpty 
+              ? const Center(
+                child: Text('Looking for restaurant ?', style: TextStyle(
+                  fontSize: 18
+                ),))
+              : ChangeNotifierProvider(
+                create: (_) => RestaurantProvider(apiService: ApiService()),
+                child: Consumer<RestaurantSearchProvider>(
+                  builder: (context, state, _){
+                    if (state.state == ResultState.loading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    else if (state.state == ResultState.hasData){
+                      return Expanded(
+                        child: ListView.builder(
                           itemCount: state.result.restaurants.length,
-                          itemBuilder: (context, index) {
+                          itemBuilder: (BuildContext context, int index) {
                             var restaurant = state.result.restaurants[index];
-                            if (searchEditingController.text.isEmpty) {
-                              return CardRestaurant(restaurant: restaurant);
-                            }
-                            else if (restaurant.name.startsWith(searchEditingController.text) || restaurant.name[0].toLowerCase() == searchEditingController.text[0]) {
-                              return CardRestaurant(restaurant: restaurant);
-                            }else{
-                              return Container();
-                            }
-                          }),
-                    );
-                  } else if (state.state == ResultState.noData) {
-                    return Center(child: Material(child: Text(state.message)));
-                  } else if (state.state == ResultState.error) {
-                    return Center(child: Material(child: Text(state.message)));
-                  } else {
-                    return const Center(child: Material(child: Text('')));
-                  }
-                },
-              ),
+                             if (restaurant.name == searchEditingController.text || restaurant.name.startsWith(searchEditingController.text) || restaurant.name[0].toLowerCase() == searchEditingController.text[0]) {
+                                return CardRestaurantSearchPage(restaurant: restaurant);
+                              }
+                              else{
+                                return Container();
+                              }
+                          },
+                        ),
+                      );
+                    }
+                    else if (state.state == ResultState.noData){
+                      return Center(child: Text(state.message));
+                    } else if (state.state == ResultState.error){
+                      return Center(child: Text(state.message));
+                    } else{
+                      return const Text('');
+                    }
+                }),
+              )
 
-              
             ])));
   }
 
   }
+
+
 

@@ -8,6 +8,7 @@ class RestoDetails extends StatelessWidget {
   static const routeName = '/resto_details';
 
   String id;
+  
 
   RestoDetails({Key? key, required this.id}) : super(key: key);
 
@@ -131,14 +132,14 @@ class RestoDetails extends StatelessWidget {
                                   child: Text(
                                     restaurant.menus.drinks[index].name,
                                     style: const TextStyle(
-                                        fontWeight: FontWeight.w500),
-))))),
+                                        fontWeight: FontWeight.w500),))))),
 
                         const Divider(color: Colors.transparent),
 
                         // Review
                         const Text('Customer Review',
                             style: TextStyle(fontWeight: FontWeight.w500)),
+                        
                         Container(
                           margin: EdgeInsets.symmetric(vertical: 3),
                           constraints: const BoxConstraints(
@@ -165,19 +166,28 @@ class RestoDetails extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(restaurant
-                                              .customerReviews[index].name, style: TextStyle(color: Colors.black.withOpacity(.6))),
+                                          Flexible(
+
+                                            child: Text(restaurant
+                                                .customerReviews[index].name,
+                                                overflow: TextOverflow.ellipsis,
+                                                 style: TextStyle(color: Colors.black.withOpacity(.6))),
+                                          ),
                                           Text(restaurant
                                               .customerReviews[index].date, style: TextStyle(color: Colors.black.withOpacity(.6)))
                                         ]),
                                       const SizedBox(height: 10),
-                                      Text(
-                                          "\"${restaurant.customerReviews[index].review}\"",
-                                          textAlign: TextAlign.center,)
+                                      Flexible(
+                                        child: Text(
+                                            "\"${restaurant.customerReviews[index].review}\"",
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.center,),
+                                      )
                                     ]),
                                 ));
                             },
-                          ))]),
+                          ))
+                          ]),
                   )));
             } else if (state.state == ResultState.error) {
               return Center(

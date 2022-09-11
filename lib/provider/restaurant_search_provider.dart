@@ -1,34 +1,39 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:resto_app/data/api/api_service_restaurant.dart';
-import 'package:resto_app/data/model/detail_restaurant.dart';
+import 'package:resto_app/data/model/restaurant.dart';
+import 'package:resto_app/data/model/search_restaurant.dart';
 import 'restaurant_provider.dart';
 
-class RestaurantDetailProvider extends ChangeNotifier {
+class RestaurantSearchProvider extends ChangeNotifier {
   final ApiService apiService;
-  final String idResto;
   
-  RestaurantDetailProvider({required this.apiService, required this.idResto}) {
-     fetchDetail(idResto);
+  
+  RestaurantSearchProvider({required this.apiService}) {
+     findRestaurant(namaResto);
   }
+  String _namaResto = '';
+  String get namaResto => _namaResto; 
 
-  late DetailResto _restoResult;
+  late SearchResto _restoResult;
   late ResultState _state;
   String _message = '';
 
   String get message => _message;
-  DetailResto get result => _restoResult;
+  SearchResto get result => _restoResult;
   ResultState get state => _state;
 
-  Future<dynamic> fetchDetail(String idResto) async {
+  Future<dynamic> findRestaurant(String namaResto) async {
     try {
       _state = ResultState.loading;
       notifyListeners();
-      final result = await apiService.restoDetail(idResto);
-      if (result.restaurant.id.isEmpty) {
+      final result = await apiService.findResto(namaResto);
+      if (result.restaurants.isEmpty) {
+        print(' gada data');
         _state = ResultState.noData;
         return _message = 'Empty Data';
       } else {
+        print('ada data : $namaResto');
         _state = ResultState.hasData;
         notifyListeners();
         return _restoResult = result;
@@ -36,7 +41,8 @@ class RestaurantDetailProvider extends ChangeNotifier {
     } catch (e) {
       _state = ResultState.error;
       notifyListeners();
-      return _message = 'No Internet Connection';
+      print(e);
+      return _message = 'Cannot load restaurant';
     }
   }
 }
