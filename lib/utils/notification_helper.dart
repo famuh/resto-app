@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:resto_app/data/api/api_service_restaurant.dart';
 import 'package:resto_app/data/model/restaurant.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -17,6 +18,7 @@ class NotificationHelper {
   }
 
   factory NotificationHelper() => _instance ?? NotificationHelper._internal();
+  
 
   Future<void> initNotifications(
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
@@ -41,6 +43,7 @@ class NotificationHelper {
     });
   }
 
+
   Future<void> showNotification(
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
       RestoData restaurant) async {
@@ -64,27 +67,31 @@ class NotificationHelper {
         iOS: iOSPlatformChannelSpecifics);
 
     // Result notification
+    var listResto = await ApiService().restoHeadline();
+    int randomIndex = Random().nextInt(listResto.restaurants.length);
+    var randomList = restaurant.restaurants[randomIndex];
     var titleNotification = "<b>Recommendation Restaurant</b>";
-    var titleResto = restaurant.restaurants[0].name;
+    var randomTitleResto = randomList.name;
+    
     await flutterLocalNotificationsPlugin.show(
-        0,
+        0, 
         titleNotification, 
-        titleResto, 
+        randomTitleResto, 
         platformChannelSpecifics,
         payload: json.encode(restaurant.toJson()));
   }
 
-  void configureSelectNotificationSubject(String route) {
+  void configureSelectNotificationSubject(String route){
     selectNotificationSubject.stream.listen(
       (String payload) async {
         var data = RestoData.fromJson(json.decode(payload));
-        var restaurant = data.restaurants;
+        var randomIndex = Random().nextInt(data.restaurants.length);
+        var restaurant = data.restaurants[randomIndex];
 
-        // memunculkan random item 
-        final random = Random();
-        var randomRestaurant = restaurant[random.nextInt(restaurant.length)];
-        Navigation.intentWithData(route, randomRestaurant);
+        Navigation.intentWithData(route, restaurant);
       },
     );
   }
+
+  
 }
