@@ -1,4 +1,3 @@
-import 'package:resto_app/data/model/detail_restaurant.dart';
 import 'package:resto_app/data/model/restaurant.dart';
 import 'package:resto_app/data/model/search_restaurant.dart';
 import 'package:sqflite/sqflite.dart';
@@ -20,16 +19,15 @@ class DatabaseHelper {
     var db = openDatabase(
       '$path/restaurant.db',
       onCreate: (db, version) async {
-        await db.execute('''CREATE TABLE $_tblFavorite (
+        await db.execute(
+          '''CREATE TABLE $_tblFavorite (
              id TEXT PRIMARY KEY,
              name TEXT,
-             title TEXT,
              description TEXT,
              pictureId TEXT,
              city TEXT,
              rating REAL
-           )     
-        ''');
+           )''');
       },
       version: 1,
     );
@@ -44,15 +42,8 @@ class DatabaseHelper {
   }
 
   // metode utk menjalankan query database
-
   // utk home_page
   Future<void> insertFavorite(Restaurant restaurant) async {
-    final db = await database;
-    await db!.insert(_tblFavorite, restaurant.toJson());
-  }
-
-  // utk search_page
-  Future<void> insertFavoriteDetail(RestaurantDetail restaurant) async {
     final db = await database;
     await db!.insert(_tblFavorite, restaurant.toJson());
   }

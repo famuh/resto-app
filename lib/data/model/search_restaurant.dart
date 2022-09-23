@@ -1,8 +1,3 @@
-// To parse this JSON data, do
-//
-//     final searchResto = searchRestoFromJson(jsonString);
-
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 SearchResto searchRestoFromJson(String str) => SearchResto.fromJson(json.decode(str));

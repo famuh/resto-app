@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:resto_app/data/api/api_service_restaurant.dart';
-import 'package:resto_app/data/model/restaurant.dart';
 import 'package:resto_app/data/model/search_restaurant.dart';
-import 'restaurant_provider.dart';
+import '../utils/result_state.dart';
 
 class RestaurantSearchProvider extends ChangeNotifier {
   final ApiService apiService;
@@ -12,7 +11,7 @@ class RestaurantSearchProvider extends ChangeNotifier {
   RestaurantSearchProvider({required this.apiService}) {
      findRestaurant(namaResto);
   }
-  String _namaResto = '';
+  final String _namaResto = '';
   String get namaResto => _namaResto; 
 
   late SearchResto _restoResult;
@@ -29,11 +28,11 @@ class RestaurantSearchProvider extends ChangeNotifier {
       notifyListeners();
       final result = await apiService.findResto(namaResto);
       if (result.restaurants.isEmpty) {
-        print(' gada data');
+        debugPrint('tidak ada data');
         _state = ResultState.noData;
         return _message = 'Empty Data';
       } else {
-        print('ada data : $namaResto');
+        debugPrint('ada data : $namaResto');
         _state = ResultState.hasData;
         notifyListeners();
         return _restoResult = result;

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resto_app/provider/restaurant_detail_provider.dart';
-
-import '../provider/restaurant_provider.dart';
+import '../utils/result_state.dart';
 
 class CustomerReview extends StatelessWidget {
   const CustomerReview({Key? key}) : super(key: key);

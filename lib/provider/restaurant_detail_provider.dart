@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:resto_app/data/api/api_service_restaurant.dart';
 import 'package:resto_app/data/model/detail_restaurant.dart';
-import 'restaurant_provider.dart';
+import '../utils/result_state.dart';
 
 class RestaurantDetailProvider extends ChangeNotifier {
   final ApiService apiService;

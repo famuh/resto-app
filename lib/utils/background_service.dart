@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'dart:isolate';
-
 import '../data/api/api_service_restaurant.dart';
 import '../main.dart';
 import 'notification_helper.dart';
